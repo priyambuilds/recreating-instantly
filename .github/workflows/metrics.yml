@@ -1,0 +1,30 @@
+name: Generate GitHub Metrics
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # runs every day at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Generate People Infographic
+        uses: lowlighter/metrics@latest
+        with:
+          filename: people.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          plugin_people: yes
+          plugin_people_types: followers, following
+
+      - name: Generate Repository Infographic
+        uses: lowlighter/metrics@latest
+        with:
+          filename: repository.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: repository
