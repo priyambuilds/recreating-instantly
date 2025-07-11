@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  reactStrictMode: true,
+  experimental: {
+  },
+  // Optional: force static generation fallback to avoid mismatch
+  output: "standalone",
 };
 
 export default nextConfig;
