@@ -5,7 +5,7 @@ from jose import jwt
 from datetime import datetime, timedelta
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.users.models import UserBase
+from app.userbase.users.models import UserBase
 from app.core.configs import settings
 
 SECRET_KEY = settings.SECRET_KEY

@@ -10,8 +10,9 @@ from jose import jwt
 from app.core.db.database_async import get_async_db as db
 from app.core.utils.hash import hash, verify
 from app.core.configs import settings
-from app.users.schemas import UserPublicSchema, UserPrivateSchema, UserCreateSchema, UserUpdateSchema, UserReadInDBSchema, UserDeleteSchema
-from app.users.models import UserBase
+from app.core.exceptions.exception import DuplicateValueException
+from app.userbase.users.schemas import UserPublicSchema, UserPrivateSchema, UserCreateSchema, UserUpdateSchema, UserReadInDBSchema, UserDeleteSchema
+from app.userbase.users.models import UserBase
 from app.core.security import create_access_token, get_current_user, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, oauth2_scheme
 
 
@@ -80,21 +81,21 @@ async def signup(
     email_result = await db.execute(select(UserBase).where(UserBase.email == user.email))
     email_check = email_result.scalar_one_or_none()
     if email_check:
-        raise DuplicateValueException("Email is already registered")
+        raise HTTPException(status_code=400, detail="Email is already registered")
 
     username_result = await db.execute(select(UserBase).where(UserBase.username == user.username))
     username_check = username_result.scalar_one_or_none()
     if username_check:
-        raise DuplicateValueException("username is already taken")
+        raise HTTPException(status_code=400, detail="username is already taken")
 
     phone_result = await db.execute(select(UserBase).where(UserBase.phone == user.phone))
     phone_check = phone_result.scalar_one_or_none()
     if phone_check:
-        raise DuplicateValueException("Phone Number already exists")
+        raise HTTPException(status_code=400, detail="Phone Number already exists")
 
     same_password = user.password == user.fullname or user.password == user.username
     if same_password:
-        raise HTTPException("Password cannot contain values from username or fullname")
+        raise HTTPException(status_code=400, detail="Password cannot contain values from username or fullname")
 
     # Hash the password from the request
     hashed_password = hash(user.password)

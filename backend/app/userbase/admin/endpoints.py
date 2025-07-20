@@ -10,8 +10,8 @@ import jwt
 from app.core.db.database_async import get_async_db as db
 from app.core.utils.hash import hash, verify
 from app.core.configs import settings
-from app.users.schemas import UserPublicSchema, UserPrivateSchema, UserCreateSchema, UserUpdateSchema, UserReadInDBSchema, UserDeleteSchema
-from app.users.models import UserBase
+from app.userbase.users.schemas import UserPublicSchema, UserPrivateSchema, UserCreateSchema, UserUpdateSchema, UserReadInDBSchema, UserDeleteSchema
+from app.userbase.users.models import UserBase
 from app.core.security import create_access_token, get_current_user, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, oauth2_scheme
 
 

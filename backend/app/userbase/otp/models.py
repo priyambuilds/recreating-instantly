@@ -1,6 +1,6 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy import String, Boolean, Integer, ForeignKey
-from app.users.models import UserBase
+from app.userbase.users.models import UserBase
 
 class Base(DeclarativeBase):
     pass

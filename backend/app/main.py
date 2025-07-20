@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from app.users.endpoints import users_router
-from app.admin.endpoints import useradmin_router
+from app.userbase.users.endpoints import users_router
+from app.userbase.admin.endpoints import useradmin_router
 
 from app.core.configs import settings
 from app.core.db.database import Base, engine
