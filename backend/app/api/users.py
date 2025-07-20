@@ -107,8 +107,8 @@ async def signup(
 
 # Update user
 @users_router.put("/update", response_model=UserReadInDBSchema)
-async def update_user(confirmation: str, user_update: UserUpdateSchema, db: AsyncSession = Depends(db), current_user: UserBase = Depends(get_current_user)):
-    verify_confirmation = confirmation == user.email
+async def update_user(email_confirmation: str, user_update: UserUpdateSchema, db: AsyncSession = Depends(db), current_user: UserBase = Depends(get_current_user)):
+    verify_confirmation = email_confirmation == user.email
     if not verify_confirmation:
         return {"Email does not match"}
     for field, value in user_update.dict(exclude_unset=True).items():
@@ -134,9 +134,9 @@ async def read_current_user(current_user: UserBase = Depends(get_current_user)):
     return current_user
 
 # Read user by email
-@users_router.get("/read/{email}", response_model=UserReadInDBSchema)
-async def read_user(email: str, db: AsyncSession = Depends(db)):
-    result = await db.execute(select(UserBase).where(UserBase.email == email))
+@users_router.get("/read/{username}", response_model=UserReadInDBSchema)
+async def read_user(username: str, db: AsyncSession = Depends(db)):
+    result = await db.execute(select(UserBase).where(UserBase.username == username))
     user = result.scalar_one_or_none()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -175,12 +175,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
 async def logout():
     return {"msg": "Logout successful. Please remove your token on the client."}
 
-# Read all users (admin/internal)
-@users_router.get("/read-internal", response_model=list[UserReadInDBSchema])
-async def read_all_users(db: Annotated[AsyncSession, Depends(db)], current_user: UserBase = Depends(get_current_user)):
-    result = await db.execute(select(UserBase))
-    users = result.scalars().all()
-    return users
 
 
 
