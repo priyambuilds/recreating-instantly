@@ -2,6 +2,6 @@
 
 export default function Hero() {
   return (
-    <div>d</div>
+    <div>hero</div>
   );
 }
