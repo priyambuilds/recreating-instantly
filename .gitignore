@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Ignore Obsidian system files
+.obsidian/
+
+# Ignore Excalidraw file (if you don't want to track your drawings)
+notes.excalidraw
+
+# Ignore local DB or environment-related folders
+.infio_json_db/
+.smtcmp_json_db/
+.smart-env/
+notes/
