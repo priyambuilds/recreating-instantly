@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     PROJECT_DESCRIPTION: str = "A platform to send and share your favorite moments instantly with emails."
     PROJECT_VERSION: str = "1.0.0"
 
+    SESSION_TTL_DAYS: int = 7
     class Config:
         env_file = ".env"
 
