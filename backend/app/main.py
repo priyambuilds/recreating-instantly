@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
-from app.api.users import users_router
+from app.users.endpoints import users_router
+from app.admin.endpoints import useradmin_router
 
 from app.core.configs import settings
 from app.core.db.database import Base, engine
@@ -14,6 +15,7 @@ app = FastAPI(
 )
 
 app.include_router(users_router)
+app.include_router(useradmin_router)
 
 
 @app.get("/health", tags=['health'])
