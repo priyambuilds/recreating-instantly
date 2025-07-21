@@ -116,7 +116,7 @@ async def signup(
         user_created_at=datetime.utcnow(),
         is_active=True,
         email_verified=True,
-        phone_verified=True,
+        phone_verified=False,
         subscription="FreeTier",
         sub_started_at=datetime.utcnow(),
         sub_ends_at=datetime.utcnow() + timedelta(days=30),
