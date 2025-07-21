@@ -1,6 +1,6 @@
 import asyncio
 
-from app.models.users import Base
+from app.userbase.users.models import Base
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import declarative_base
 from app.core.configs import settings
