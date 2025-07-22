@@ -1,5 +1,5 @@
 from app.core.security import create_access_token, get_current_user, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_DAYS, oauth2_scheme
-from fastapi import APIRouter, Depends, Request, HTTPException, status
+from fastapi import APIRouter, Depends, Request, HTTPException, status, Cookie
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,6 +14,7 @@ from app.core.configs import settings
 from app.core.exceptions.exception import DuplicateValueException
 from app.userbase.users.schemas import UserPublicSchema, UserPrivateSchema, UserCreateSchema, UserUpdateSchema, UserReadInDBSchema, UserDeleteSchema
 from app.userbase.users.models import UserBase
+from app.userbase.sso.models import SSOUserBase
 
 
 users_router = APIRouter(
@@ -22,27 +23,63 @@ users_router = APIRouter(
 )
 
 
+def get_token_from_cookie(access_token: str = Cookie(None)):
+    import logging
+    logger = logging.getLogger("uvicorn.error")
+    logger.info(f"Cookie access_token: {access_token}")
+    if not access_token:
+        logger.warning("No access_token cookie found")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="No cookies found, Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return access_token
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(db), request: Request = None):
+async def get_current_user(token: str = Depends(get_token_from_cookie), db: AsyncSession = Depends(db), request: Request = None):
+    import logging
+    logger = logging.getLogger("uvicorn.error")
+    logger.info(f"get_current_user received token: {token}")
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
+        detail="Could not validate credentials(get_current_user_exception)",
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
+        logger.info(f"Decoded JWT, sub={username}")
         if username is None:
+            logger.warning("JWT missing sub claim")
             raise credentials_exception
-    except Exception:
+    except Exception as e:
+        logger.error(f"JWT decode error: {e}")
         raise credentials_exception
-    result = await db.execute(select(UserBase).where(UserBase.username == username))
-    user = result.scalar_one_or_none()
+    try:
+        result = await db.execute(select(UserBase).where(UserBase.username == username))
+        user = result.scalar_one_or_none()
+    except Exception as e:
+        if "MultipleResultsFound" in str(type(e)):
+            logger.error("Multiple users found for the same username/email")
+            raise HTTPException(status_code=400, detail="User/email already exists. Please contact support.")
+        else:
+            logger.error(f"UserBase query error: {e}")
+            raise credentials_exception
+    if user is None:
+        try:
+            result = await db.execute(select(SSOUserBase).where(SSOUserBase.username == username))
+            user = result.scalar_one_or_none()
+        except Exception as e:
+            if "MultipleResultsFound" in str(type(e)):
+                logger.error("Multiple SSO users found for the same username/email")
+                raise HTTPException(status_code=400, detail="User/email already exists. Please contact support.")
+            else:
+                logger.error(f"SSOUserBase query error: {e}")
+                raise credentials_exception
     if user is None:
         raise credentials_exception
 
-    
     SESSION_TTL_DAYS = settings.SESSION_TTL_DAYS
     if user.last_login and (datetime.utcnow() - user.last_login) > timedelta(days=SESSION_TTL_DAYS):
         raise HTTPException(status_code=401, detail="7 Days of inactivity, please login again.")
@@ -59,6 +96,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession
             raise HTTPException(status_code=401, detail="Location changed, please login again.")
 
     return user
+
 
 async def get_current_active_user(current_user: UserBase = Depends(get_current_user)):
     if not current_user.is_active:

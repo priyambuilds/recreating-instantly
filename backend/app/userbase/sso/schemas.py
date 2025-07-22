@@ -7,7 +7,7 @@ class UserPublicSchema(BaseModel):
     id: int
     email: str
     username: str
-    fullname: str
+    fullname: constr(min_length=1, max_length=100)
     phone: Optional[str] = None
 
     class Config:
@@ -32,7 +32,7 @@ class UserPrivateSchema(UserPublicSchema):
 class UserDiscordSSOSchema(BaseModel):
     email: EmailStr
     username: str
-    fullname: str
+    fullname: constr(min_length=1, max_length=100)
     phone: Optional[str] = None
     user_created_at: datetime
     is_active: bool
