@@ -12,7 +12,7 @@ from app.core.utils.hash import hash, verify
 from app.core.configs import settings
 from app.userbase.users.schemas import UserPublicSchema, UserPrivateSchema, UserCreateSchema, UserUpdateSchema, UserReadInDBSchema, UserDeleteSchema
 from app.userbase.users.models import UserBase
-from app.core.security import create_access_token, get_current_user, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, oauth2_scheme
+from app.core.security import create_access_token, get_current_user, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_DAYS, oauth2_scheme
 
 
 useradmin_router = APIRouter(

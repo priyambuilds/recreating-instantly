@@ -1,3 +1,4 @@
+from app.core.security import create_access_token, get_current_user, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_DAYS, oauth2_scheme
 from fastapi import APIRouter, Depends, Request, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import select
@@ -13,7 +14,6 @@ from app.core.configs import settings
 from app.core.exceptions.exception import DuplicateValueException
 from app.userbase.users.schemas import UserPublicSchema, UserPrivateSchema, UserCreateSchema, UserUpdateSchema, UserReadInDBSchema, UserDeleteSchema
 from app.userbase.users.models import UserBase
-from app.core.security import create_access_token, get_current_user, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, oauth2_scheme
 
 
 users_router = APIRouter(
@@ -205,7 +205,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
     user = result.scalar_one_or_none()
     if not user or not verify(form_data.password, user.hashed_password):
         raise HTTPException(status_code=400, detail="Incorrect email or password")
-    access_token = create_access_token(data={"sub": user.username}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+        access_token = create_access_token(data={"sub": user.username}, expires_delta=timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS))
     return {"access_token": access_token, "token_type": "bearer"}
 
 # Logout (stateless JWT, so just client-side token removal)

@@ -10,7 +10,7 @@ class Settings(BaseSettings):
 
     SECRET_KEY: str
     ALGORITHM: str
-    ACCESS_TOKEN_EXPIRE_MINUTES: int
+    ACCESS_TOKEN_EXPIRE_DAYS: int
     SESSION_TTL_DAYS: int = 7
 
     PROJECT_NAME: str = "Recreating Instantly"
@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     DISCORD_CLIENT_ID: str
     DISCORD_CLIENT_SECRET: str
     DISCORD_REDIRECT_URI: str
+    
     class Config:
         env_file = ".env"
 
