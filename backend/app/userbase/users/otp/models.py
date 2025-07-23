@@ -13,8 +13,6 @@ class OTPs(Base):
     email: Mapped[str] = mapped_column(String, ForeignKey("userbase.email"), index=True, nullable=False)
     otp: Mapped[str] = mapped_column(String, nullable=False)
     otp_expires_at: Mapped[datetime] = mapped_column(nullable=False)
-    otp_sent: Mapped[str] = mapped_column(String, nullable=False)
-    otp_verified: Mapped[bool] = mapped_column(Boolean, default=False)
     
     # Relationship to UserBase
     user_relation: Mapped["UserBase"] = relationship("UserBase", back_populates="otpdb")
