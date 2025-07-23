@@ -42,11 +42,13 @@ import asyncio
 from app.core.db.database_async import engine
 from app.userbase.users.models import Base as UsersBase
 from app.userbase.sso.models import Base as SSOBase
+from app.userbase.otp.models import Base as OTPBase
 
 async def create_all_tables():
     async with engine.begin() as conn:
         await conn.run_sync(UsersBase.metadata.create_all)
         await conn.run_sync(SSOBase.metadata.create_all)
+        await conn.run_sync(OTPBase.metadata.create_all)
 
 if __name__ == "__main__":
     asyncio.run(create_all_tables())

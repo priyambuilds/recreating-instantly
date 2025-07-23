@@ -135,6 +135,12 @@ async def signup(
     if same_password:
         raise HTTPException(status_code=400, detail="Password cannot contain values from username or fullname")
 
+    # OTP send
+    from app.userbase.otp.endpoints import send_otp
+    await send_otp(request, OTPBaseSchema(email=user.email), db)
+    if not user.email_verified:
+        raise HTTPException(status_code=400, detail="Email not verified. Please verify your email before signing up.")
+
     # Hash the password from the request
     hashed_password = hash(user.password)
 

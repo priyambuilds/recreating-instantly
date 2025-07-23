@@ -10,9 +10,9 @@ class OTPs(Base):
     __tablename__ = "otpdb"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, nullable=False, autoincrement=True)
-    email: Mapped[str] = mapped_column(String, ForeignKey("userbase.email"), index=True, nullable=False)
-    otp: Mapped[str] = mapped_column(String, nullable=False)
+    email: Mapped[str] = mapped_column(String, index=True, nullable=False)
+    otp: Mapped[int] = mapped_column(Integer, nullable=False)
     otp_expires_at: Mapped[datetime] = mapped_column(nullable=False)
+    email_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     
-    # Relationship to UserBase
-    user_relation: Mapped["UserBase"] = relationship("UserBase", back_populates="otpdb")
+    
