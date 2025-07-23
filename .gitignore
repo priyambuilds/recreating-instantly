@@ -50,3 +50,5 @@ notes.excalidraw
 .smtcmp_json_db/
 .smart-env/
 notes/
+.anima
+.gitignore
