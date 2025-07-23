@@ -6,7 +6,7 @@ class Base(DeclarativeBase):
     pass
 
 class SSOUserBase(Base):
-    __tablename__ = "discord_sso_userbase"
+    __tablename__ = "SSOUserBase"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, nullable=False, autoincrement=True)
     email: Mapped[str] = mapped_column(String, index=True, nullable=False)
@@ -26,7 +26,8 @@ class SSOUserBase(Base):
     sub_ends_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)  # ISO format date string
     
     # Additional fields for user tracking and analytics
-    last_login: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    login_type: Mapped[str] = mapped_column(String, nullable=False)  # 'sso', 'email', etc.
+    last_login: Mapped[datetime | None] = mapped_column(DateTime, nullable=False)
     os_info: Mapped[str | None] = mapped_column(String, nullable=True)
     location: Mapped[str | None] = mapped_column(String, nullable=True)
 

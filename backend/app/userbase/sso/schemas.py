@@ -7,7 +7,7 @@ class UserPublicSchema(BaseModel):
     id: int
     email: str
     username: str
-    fullname: str
+    fullname: constr(min_length=1, max_length=100)
     phone: Optional[str] = None
 
     class Config:
@@ -22,6 +22,7 @@ class UserPrivateSchema(UserPublicSchema):
     subscription: constr(min_length=2, max_length=20, pattern=r"^[A-Za-z]+$")
     sub_started_at: datetime
     sub_ends_at: datetime
+    login_type: str
     last_login: Optional[datetime]
     os_info: Optional[str]
     location: Optional[str]
@@ -31,7 +32,7 @@ class UserPrivateSchema(UserPublicSchema):
 class UserDiscordSSOSchema(BaseModel):
     email: EmailStr
     username: str
-    fullname: str
+    fullname: constr(min_length=1, max_length=100)
     phone: Optional[str] = None
     user_created_at: datetime
     is_active: bool
@@ -40,6 +41,7 @@ class UserDiscordSSOSchema(BaseModel):
     subscription: constr(min_length=2, max_length=20, pattern=r"^[A-Za-z]+$")
     sub_started_at: datetime
     sub_ends_at: datetime
+    login_type: str
     last_login: Optional[datetime] = None
     os_info: Optional[str] = None
     location: Optional[str] = None

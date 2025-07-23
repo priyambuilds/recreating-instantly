@@ -30,4 +30,3 @@ class UserBase(Base):
     last_login: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     os_info: Mapped[str | None] = mapped_column(String, nullable=True)
     location: Mapped[str | None] = mapped_column(String, nullable=True)
-

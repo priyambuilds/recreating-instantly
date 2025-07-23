@@ -7,7 +7,7 @@ class UserPublicSchema(BaseModel):
     id: int
     email: constr(min_length=6, max_length=254, pattern=r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$") = Field(..., examples=["user@gmail.com"])
     username: constr(min_length=3, max_length=30, pattern=r"^[A-Za-z0-9_]+$") = Field(..., example="Heisenburg_801")
-    fullname: constr(max_length=40, pattern=r"^[A-Za-z\s]+$") = Field(..., examples=["Walter Heartwell White"])
+    fullname: constr(max_length=100) = Field(..., examples=["Walter Heartwell White"])
     phone: Optional[constr(min_length=10, max_length=15, pattern=r"^\+?\d{10,15}$")] = Field(None, examples=["+1234567890"])
 
     class Config:
@@ -41,7 +41,7 @@ class UserLoginSchema(BaseModel):
 class UserCreateSchema(BaseModel):
     email: constr(min_length=6, max_length=64, pattern=r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$") = Field(..., examples=["heisenburg@gmail.com"])
     username: constr(min_length=3, max_length=30, pattern=r"^[A-Za-z0-9_]+$") = Field(..., example="Heisenburg_801")
-    fullname: constr(min_length=2, max_length=40, pattern=r"^[A-Za-z ]+$") = Field(None, examples=["Walter Heartwell White"])
+    fullname: constr(min_length=2, max_length=100) = Field(None, examples=["Walter Heartwell White"])
     phone: Optional[constr(min_length=10, max_length=15, pattern=r"^\+?\d{10,15}$")]= Field(None, examples=["+919988776655"])
     password: constr(min_length=8, max_length=64, pattern=r"^[^\s]+$")= Field(..., examples=["VeryStrongPassword"])
 
@@ -54,7 +54,7 @@ class UserCreateSchema(BaseModel):
 
 class UserUpdateSchema(BaseModel):
     username: constr(min_length=3, max_length=30, pattern=r"^[A-Za-z0-9_]+$") = Field(..., example="Heisenburg_801")
-    fullname: Optional[constr(min_length=2, max_length=50, pattern=r"^[A-Za-z\s]+$")]
+    fullname: Optional[constr(min_length=2, max_length=100)]
     phone: Optional[constr(min_length=10, max_length=15, pattern=r"^\+?\d{10,15}$")]
 
 
@@ -62,7 +62,7 @@ class UserReadInDBSchema(BaseModel):
     id: int
     email: constr(min_length=6, max_length=100, pattern=r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
     username: constr(min_length=3, max_length=30, pattern=r"^[A-Za-z0-9_]+$") = Field(..., example="Heisenburg_801")
-    fullname: constr(min_length=2, max_length=40, pattern=r"^[A-Za-z ]+$")
+    fullname: constr(min_length=2, max_length=100)
     phone: Optional[constr(min_length=10, max_length=15, pattern=r"^\+?\d{10,15}$")]
     user_created_at: datetime
     is_active: bool
@@ -81,7 +81,7 @@ class UserReadInDBSchema(BaseModel):
 class UserDeleteSchema(BaseModel):
     id: int
     email: constr(min_length=6, max_length=254, pattern=r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
-    username: constr(min_length=3, max_length=30, pattern=r"^[A-Za-z0-9_]+$") = Field(..., example="Heisenburg_801 ")
+    username: constr(min_length=3, max_length=100) = Field(..., example="Heisenburg_801 ")
     fullname: constr(max_length=40, pattern=r"^[A-Za-z\s]+$")
     phone: Optional[constr(min_length=10, max_length=15, pattern=r"^\+?\d{10,15}$")]
 
