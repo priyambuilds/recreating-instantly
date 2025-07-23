@@ -6,6 +6,7 @@ from app.userbase.sso.google_sso import sso_router as google_sso_router
 from app.userbase.sso.github_sso import sso_router as github_sso_router
 from app.userbase.sso.discord_sso import sso_router as discord_sso_router
 from app.userbase.sso.slack_sso import sso_router as slack_sso_router
+from app.userbase.otp.endpoints import otp_router
 
 from app.core.configs import settings
 from app.core.db.database import Base, engine
@@ -24,6 +25,7 @@ app.include_router(google_sso_router)
 app.include_router(github_sso_router)
 app.include_router(discord_sso_router)
 app.include_router(slack_sso_router)
+app.include_router(otp_router)
 
 
 @app.get("/health", tags=['health'])
