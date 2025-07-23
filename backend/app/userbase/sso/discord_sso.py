@@ -1,5 +1,5 @@
 import httpx
-from fastapi import FastAPI, Cookie ,Request, APIRouter, HTTPException, Depends, status
+from fastapi import FastAPI, Cookie, Request, APIRouter, HTTPException, Depends, status
 
 from fastapi.responses import RedirectResponse, Response
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -155,6 +155,7 @@ async def discord_callback(request: Request, db: AsyncSession = Depends(db)):
                 secure=True,  # Set to True in production
                 samesite="lax",
                 max_age=settings.ACCESS_TOKEN_MAX_AGE
+
             )
             return response
         # Create new SSO user

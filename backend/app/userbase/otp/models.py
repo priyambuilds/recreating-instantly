@@ -10,6 +10,7 @@ class OTPs(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, nullable=False, autoincrement=True)
     email: Mapped[str] = mapped_column(String, ForeignKey("userbase.email"), index=True, nullable=False)
+    otp: Mapped[str] = mapped_column(String, nullable=False)
     otp_sent: Mapped[str] = mapped_column(String, nullable=False)
     otp_verified: Mapped[bool] = mapped_column(Boolean, default=False)
     
