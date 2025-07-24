@@ -13,6 +13,5 @@ class OTPs(Base):
     email: Mapped[str] = mapped_column(String, index=True, nullable=False)
     otp: Mapped[int] = mapped_column(Integer, nullable=False)
     otp_expires_at: Mapped[datetime] = mapped_column(nullable=False)
-    email_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     
     

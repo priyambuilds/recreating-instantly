@@ -47,11 +47,10 @@ class Settings(BaseSettings):
     GITHUB_TOKEN_URL: str = "https://github.com/login/oauth/access_token"
     GITHUB_USERINFO_URL: str = "https://api.github.com/user"
 
-    
-    SMTP_HOST: str
-    SMTP_PORT: int
-    SMTP_USER: str
-    SMTP_KEY: str
+    BREVO_API_KEY: str
+    SENDER_EMAIL: str
+
+    GOOGLE_SHEET_ID: str
     class Config:
         env_file = ".env"
 

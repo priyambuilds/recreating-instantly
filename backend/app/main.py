@@ -7,6 +7,7 @@ from app.userbase.sso.github_sso import sso_router as github_sso_router
 from app.userbase.sso.discord_sso import sso_router as discord_sso_router
 from app.userbase.sso.slack_sso import sso_router as slack_sso_router
 from app.userbase.otp.endpoints import otp_router
+from app.contacts.endpoints import contactpage_router
 
 from app.core.configs import settings
 from app.core.db.database import Base, engine
@@ -26,6 +27,7 @@ app.include_router(github_sso_router)
 app.include_router(discord_sso_router)
 app.include_router(slack_sso_router)
 app.include_router(otp_router)
+app.include_router(contactpage_router)
 
 
 @app.get("/health", tags=['health'])
@@ -43,12 +45,14 @@ from app.core.db.database_async import engine
 from app.userbase.users.models import Base as UsersBase
 from app.userbase.sso.models import Base as SSOBase
 from app.userbase.otp.models import Base as OTPBase
+from app.contacts.models import Base as ContactsBase
 
 async def create_all_tables():
     async with engine.begin() as conn:
         await conn.run_sync(UsersBase.metadata.create_all)
         await conn.run_sync(SSOBase.metadata.create_all)
         await conn.run_sync(OTPBase.metadata.create_all)
+        await conn.run_sync(ContactsBase.metadata.create_all)
 
 if __name__ == "__main__":
     asyncio.run(create_all_tables())

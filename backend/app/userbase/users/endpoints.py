@@ -15,6 +15,7 @@ from app.core.exceptions.exception import DuplicateValueException
 from app.userbase.users.schemas import UserPublicSchema, UserPrivateSchema, UserCreateSchema, UserUpdateSchema, UserReadInDBSchema, UserDeleteSchema
 from app.userbase.users.models import UserBase
 from app.userbase.sso.models import SSOUserBase
+from app.userbase.otp.endpoints import create_and_send_otp
 
 
 users_router = APIRouter(
@@ -135,12 +136,6 @@ async def signup(
     if same_password:
         raise HTTPException(status_code=400, detail="Password cannot contain values from username or fullname")
 
-    # OTP send
-    from app.userbase.otp.endpoints import send_otp
-    await send_otp(request, OTPBaseSchema(email=user.email), db)
-    if not user.email_verified:
-        raise HTTPException(status_code=400, detail="Email not verified. Please verify your email before signing up.")
-
     # Hash the password from the request
     hashed_password = hash(user.password)
 
@@ -159,7 +154,7 @@ async def signup(
         hashed_password=hashed_password,
         user_created_at=datetime.utcnow(),
         is_active=True,
-        email_verified=True,
+        email_verified=False,
         phone_verified=False,
         subscription="FreeTier",
         sub_started_at=datetime.utcnow(),
@@ -171,6 +166,11 @@ async def signup(
     db.add(user_signup)
     await db.commit()
     await db.refresh(user_signup)
+
+
+    # After creating the user and committing to db:
+    await create_and_send_otp(user.email, db)
+
     return user_signup
 
 
