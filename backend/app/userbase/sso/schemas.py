@@ -11,7 +11,7 @@ class UserPublicSchema(BaseModel):
     phone: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class UserPrivateSchema(UserPublicSchema): 
@@ -47,4 +47,4 @@ class UserDiscordSSOSchema(BaseModel):
     location: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

@@ -11,7 +11,7 @@ class UserPublicSchema(BaseModel):
     phone: Optional[constr(min_length=10, max_length=15, pattern=r"^\+?\d{10,15}$")] = Field(None, examples=["+1234567890"])
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class UserPrivateSchema(UserPublicSchema): 
@@ -76,7 +76,7 @@ class UserReadInDBSchema(BaseModel):
     location: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserDeleteSchema(BaseModel):
     id: int
@@ -86,5 +86,4 @@ class UserDeleteSchema(BaseModel):
     phone: Optional[constr(min_length=10, max_length=15, pattern=r"^\+?\d{10,15}$")]
 
     class Config:
-        orm_mode = True
-
+        from_attributes = True

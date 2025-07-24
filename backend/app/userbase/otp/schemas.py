@@ -9,6 +9,6 @@ class OTPBaseSchema(BaseModel):
     otp_expires_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
