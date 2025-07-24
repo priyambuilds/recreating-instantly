@@ -4,6 +4,8 @@ from sqlalchemy import insert
 from app.core.db.database_async import get_async_db as db
 from app.contacts.models import ContactUsPage
 from app.contacts.schemas import ContactUsPageSchema
+from app.contacts.googlesheets import append_to_sheet
+
 
 contactpage_router = APIRouter(prefix="/contact", tags=["contact"])
 
@@ -19,4 +21,13 @@ async def create_lead(data: ContactUsPageSchema, db: AsyncSession = Depends(db))
     db.add(obj)
     await db.commit()
     await db.refresh(obj)
+
+    append_to_sheet([
+        data.name,
+        data.email,
+        data.subject,
+        data.message,
+        data.social_links or ""
+    ])
+
     return ContactUsPageSchema.model_validate(obj, from_attributes=True)

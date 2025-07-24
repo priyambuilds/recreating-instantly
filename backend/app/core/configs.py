@@ -50,6 +50,7 @@ class Settings(BaseSettings):
     BREVO_API_KEY: str
     SENDER_EMAIL: str
 
+    GOOGLE_SHEET_ID: str
     class Config:
         env_file = ".env"
 
