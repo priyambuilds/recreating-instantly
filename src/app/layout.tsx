@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: 'Send thousands of emails without landing in spam folders.',
     images: [
       {
-        url: './public/logo.png',
+        url: '/logo.png',
         width: 1200,
         height: 630,
         alt: 'Instantly Clone',
@@ -50,13 +50,8 @@ export default function RootLayout({children}: {children: React.ReactNode})
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <div>
-          <Navbar />
-          <main>
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <Navbar />
+        <Footer />
       </body>
     </html>
   )
