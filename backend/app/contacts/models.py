@@ -2,7 +2,7 @@ from sqlalchemy.orm import Mapped, mapped_column, declarative_base
 from sqlalchemy import String, Integer, Text
 from typing import Optional
 
-Base = declarative_base()
+from app.core.db.base import Base
 
 class ContactUsPage(Base):
     __tablename__ = "Contactus"

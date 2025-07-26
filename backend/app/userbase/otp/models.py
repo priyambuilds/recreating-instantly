@@ -3,8 +3,7 @@ from sqlalchemy import String, Boolean, Integer, ForeignKey
 from app.userbase.users.models import UserBase
 from datetime import datetime
 
-class Base(DeclarativeBase):
-    pass
+from app.core.db.base import Base
 
 class OTPs(Base):
     __tablename__ = "otpdb"
