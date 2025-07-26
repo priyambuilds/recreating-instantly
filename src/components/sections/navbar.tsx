@@ -1,134 +1,112 @@
-"use client";
-import { useState } from 'react'
-import Link from 'next/link'
+"use client"
+
+import * as React from "react"
+import Link from "next/link"
+import { useTheme } from "next-themes"
+import { Button } from "@/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/ui/sheet"
+import { Moon, Sun, Menu } from "lucide-react"
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
-import { 
-  MagnifyingGlassIcon, 
-  InboxIcon,
-  UserIcon,
-  Cog8ToothIcon,
-  ArrowRightEndOnRectangleIcon,
-  ChevronDownIcon,
-  Bars3Icon,
-  XMarkIcon
-  
-} from '@heroicons/react/20/solid'
 
-/* 
+const navigation = [
+  {name: 'home', href: '/'},
+  {name: 'pricing', href: '/pricing'},
+  {name: 'contact', href: '/contact'}
+]
 
-Desktop Layout
-[Brand] | [Home] [Pricing] [Features] ~~~~~~~~ [Search] [Inbox] [User] [≡]
-   ↑    ↑                              ↑                          ↑
-Section Divider                      Spacer                    Section
+export default function Navbar () {
+  const {theme, setTheme} = useTheme()
+  const [mounted, setMounted] = React.useState(false)
 
-Mobile Layout:
-[Brand] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Search] [Inbox] [User] [≡]
-   ↑                                                                      ↑
-Section                                                                Section
+  // Prevent hydration mismatch
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
-*/ 
-
-// NavbarItem Component
-function NavbarItem({ 
-  href, 
-  children, 
-  current = false, 
-  onClick,
-  className = "",
-  ...props 
-}:{
-  href?: string,
-  children: React.ReactNode,
-  current?: boolean,
-  onClick?: () => void,
-  className?: string,
-}) {
-  const baseClasses = "relative px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg"
-  const stateClasses = current 
-    ? "bg-gray-100 text-gray-900" 
-    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-  if (href) {
-    return (
-      <Link 
-        href={href} 
-        className={`${baseClasses} ${stateClasses} ${className}`}
-        {...props}
-      >
-        {children}
-        {current && (
-          <span className="absolute inset-x-0 -bottom-px h-0.50 rounded-full" />
-        )}
-      </Link>
-    )
+  if (!mounted) {
+    return null
   }
 
   return (
-    <button 
-      onClick={onClick}
-      className={`${baseClasses} ${stateClasses} ${className}`}
-      {...props}
-    >
-      {children}
-    </button>
-  )
-}
+    <header className="sticky top-0 w-full z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container px-4 mx-auto">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/">
+              <Image
+                src="/logo.png"
+                width={50}
+                height={50}
+                alt="logo"
+                quality={80}
+              />
+            </Link>
+          </div>
 
-// NavbarSection Component
-function NavbarSection ({
-  children, className = ""
-}: {
-  children: React.ReactNode, className?: string
-}) {
-    return (
-      <div className={`flex items-center gap-2 ${className}`}>
-        {children}
-      </div>
-    );
-}
+          {/* Desktop Navigation */}
+          <nav className="items-center hidden space-x-8 md:flex">
+            {navigation.map((item) => (
+              <Link
+                className="text-sm font-medium transition-colors text-muted-foreground hover:text-foreground"
+                key={item.name}
+                href={item.href}
+               >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
 
+          {/* Right side - Theme toggle, Sign in, Register */}
+          <div className="flex items-center space-x-4">
+            <Button
+             variant="ghost"
+             size="icon"
+             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            >
+              {theme === 'light' ? (
+                <Moon className="w-4 h-4"/>
+              ): (
+                <Sun className="w-4 h-4"/>
+              )}
+              <span className="sr-only">Toggle theme</span>
+            </Button>
 
-// Main Navbar Component
-export default function Navbar() {
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const pathName = usePathname()
+            {/* Desktop Auth Buttons */}
+            <div className="items-center hidden space-x-2 md:flex">
+              <Button variant="ghost" size="sm">Login In</Button>
+              <Button variant="ghost" size="sm">Register</Button>
+            </div>
 
-  return (
-    <>
-      <nav className="sticky top-0 z-50 border-b border-neutral-300">
-        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className='flex items-center justify-between h-16'>
-            <NavbarSection>
-              <NavbarItem href='/' className='!px-0'>
-                <span className='flex items-center justify-center gap-3'>
-                  <Image 
-                  src="/image.png" 
-                  alt="instantly logo"
-                  width={120}
-                  height={40}
-                  priority              
-                  className="!px-0 hover:bg-transparent"
-                />
-                </span>
-              </NavbarItem>
-            </NavbarSection>
-
-            <NavbarSection className="max-lg:hidden"> 
-              <NavbarItem href="/" current = {pathName === '/'}>Home</NavbarItem>
-              <NavbarItem href="/pricing" current = {pathName === '/pricing'}>Pricing</NavbarItem>
-              <NavbarItem href="/blog" current = {pathName === '/blog'}>Blog</NavbarItem>
-              <NavbarItem href="/contact" current = {pathName === '/contact'}>Contact</NavbarItem>
-            </NavbarSection>
+            {/* Mobile Menu Button */}
             
-            <NavbarSection>
-            <NavbarItem href="/auth/login">Login</NavbarItem>
-            <NavbarItem href="/auth/signup">Sign Up</NavbarItem>
-            </NavbarSection>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Menu className="w-4 h-4"/>
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="top" className="w-full h-full p-4">
+                <nav className="flex flex-col mt-8 space-y-4">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="text-sm font-medium transition-colors text-muted-foreground hover:text-foreground"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                  <div className="pt-4 space-y-2 border-t">
+                    <Button variant="ghost" size="sm" className ="w-full">Login In</Button>
+                    <Button variant="ghost" size="sm" className ="w-full">Register</Button>
+                  </div>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
-
-      </nav>
-    </>
+      </div>
+    </header>
   )
 }
