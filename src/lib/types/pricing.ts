@@ -4,6 +4,7 @@ export const PRODUCT_CATEGORIES = {
       name: 'Outreach',
       description: 'Email marketing and cold outreach campaigns',
       icon: '📧',
+      discount: 20,
       plans: {
         growth: {
           id: 'growth',
@@ -76,6 +77,7 @@ export const PRODUCT_CATEGORIES = {
       name: 'SuperSearch',
       description: 'B2B lead database and AI-powered research',
       icon: '🔍',
+      discount: 10,
       plans: {
         growth: {
           id: 'growth',
@@ -144,6 +146,7 @@ export const PRODUCT_CATEGORIES = {
       name: 'CRM',
       description: 'Customer relationship management system',
       icon: '👥',
+      discount: 20,
       plans: {
         growth: {
           id: 'growth',
@@ -185,19 +188,19 @@ export const PRODUCT_CATEGORIES = {
 
 export type ProductId = keyof typeof PRODUCT_CATEGORIES
 export type Product = typeof PRODUCT_CATEGORIES[ProductId]
-export type PlanId = string
+export type PlanId<P extends ProductId = ProductId> = keyof typeof PRODUCT_CATEGORIES[P]['plans'] & string
 export type BillingCycle = 'monthly' | 'yearly'
 
-export function getProduct(productId:string):Product | null {
-  return PRODUCT_CATEGORIES[productId as ProductId] || null
+export function getProduct(productId: string): Product | null {
+  return PRODUCT_CATEGORIES[productId as ProductId] || null;
 }
 
-export function getPlan(productId:ProductId, planId:PlanId) {
-  const product = PRODUCT_CATEGORIES[productId]
-  return product?.plans[planId as keyof  typeof product.plans] || null
+export function getPlan<P extends ProductId>(productId: P, planId: PlanId<P>) {
+  const product = PRODUCT_CATEGORIES[productId];
+  return product?.plans[planId as keyof typeof product.plans] || null;
 }
 
-export function getPrice(productId: ProductId) : number {
-  if (productId === 'supersearch') return 10 // 10% for SuperSearch
-  return 20 // 20% for Outreach and CRM
+export function getPrice(productId: ProductId): number {
+  const product = PRODUCT_CATEGORIES[productId];
+  return product.discount;
 }
