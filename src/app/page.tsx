@@ -1,9 +1,9 @@
-import Hero from "@/sections/hero";
+import Hero from "@/sections/hero"
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Hero />
     </div>
-  );
+  )
 }
