@@ -1,8 +1,8 @@
 // src/app/layout.tsx
 import type { Metadata } from 'next'
 import './globals.css'
-import Navbar from '@/sections/navbar'
-import Footer from '@/sections/footer'
+import Navbar from '@/components/sections/constants/navbar'
+import Footer from '@/components/sections/constants/footer'
 import ThemeProvider from '@/components/theme-provider'
 
 export const metadata: Metadata = {

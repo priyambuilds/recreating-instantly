@@ -9,10 +9,7 @@ import { Moon, Sun, Menu } from "lucide-react"
 import Image from "next/image"
 
 const navigationItems = [
-  { name: "Products", href: "#" },
-  { name: "Solutions", href: "#" },
-  { name: "Community", href: "#" },
-  { name: "Resources", href: "#" },
+  { name: "Home", href: "/" },
   { name: "Pricing", href: "/pricing" },
   { name: "Contact", href: "/contact" }
 ]
@@ -84,12 +81,12 @@ export default function Navbar() {
 
             {/* Desktop Auth Buttons */}
             <div className="items-center hidden space-x-2 md:flex">
-              <Button variant="ghost" size="sm">
+              <Link href="auth/login"><Button variant="ghost" size="sm">
                 Sign In
-              </Button>
-              <Button size="sm">
+              </Button></Link>
+              <Link href="auth/register"><Button size="sm">
                 Register
-              </Button>
+              </Button></Link>
             </div>
 
             {/* Mobile menu button */}
