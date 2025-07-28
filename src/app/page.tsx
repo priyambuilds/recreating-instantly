@@ -1,13 +1,9 @@
-import Navbar from "@/sections/navbar";
-import Hero from "@/sections/hero";
-import Footer from "@/sections/footer";
+import Hero from "@/components/sections/landing/hero"
 
 export default function Home() {
   return (
-    <div>
-      <Navbar />
+    <div className="flex flex-col min-h-screen">
       <Hero />
-      <Footer />
     </div>
-  );
+  )
 }
