@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { ProductSelector } from '@/sections/pricing/product-selector'
 import { BillingToggle, type BillingCycle } from '@/sections/pricing/billing-toggle'
 import PricingCard from '@/sections/pricing/pricing-card'
-import { generateMetrics } from '@/lib/types/metrics-generator'
-import { PRODUCT_CATEGORIES, type ProductId, getPrice } from '@/lib/types/pricing'
+import { generateMetrics } from '@/lib/types/pricing/metrics-generator'
+import { PRODUCT_CATEGORIES, type ProductId, getPrice } from '@/lib/types/pricing/pricing'
 
 export default function PricingSection() {
   const [selectedProduct, setSelectedProduct] = useState<ProductId>('outreach')

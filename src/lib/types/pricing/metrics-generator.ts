@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORIES, type ProductId } from '@/lib/types/pricing'
+import { PRODUCT_CATEGORIES, type ProductId } from '@/lib/types/pricing/pricing'
 
 export interface Metric {
   label: string

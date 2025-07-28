@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORIES, type ProductId, type BillingCycle } from '@/lib/types/pricing'
+import { PRODUCT_CATEGORIES, type ProductId, type BillingCycle } from '@/lib/types/pricing/pricing'
 
 interface PriceValidationResult {
   isValid: boolean
