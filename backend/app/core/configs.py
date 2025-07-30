@@ -49,15 +49,18 @@ class Settings(BaseSettings):
 
     X_CLIENT_ID: str
     X_CLIENT_SECRET: str
-    X_REDIRECT_URI: str = "http://localhost:8000/user/sso/x/callback"
+    X_REDIRECT_URI: str = "http://127.0.0.1:8000/user/sso/x/callback"
     X_AUTH_URL: str = "https://twitter.com/i/oauth2/authorize"
     X_TOKEN_URL: str = "https://api.twitter.com/2/oauth2/token"
     X_USERINFO_URL: str = "https://api.twitter.com/2/users/me"
- 
+
     BREVO_API_KEY: str
     SENDER_EMAIL: str
 
     GOOGLE_SHEET_ID: str
+
+    STRIPE_SECRET_KEY: str
+
     class Config:
         env_file = ".env"
 

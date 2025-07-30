@@ -62,6 +62,7 @@ async def get_current_user(token: str = Depends(get_token_from_cookie), db: Asyn
 
     return user
 
+
 @sso_router.get("/x/login")
 async def x_login():
     url = (
