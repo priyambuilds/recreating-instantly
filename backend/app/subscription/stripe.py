@@ -4,9 +4,9 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import RedirectResponse
 from app.core.configs import settings
 
-stripe_router = APIRouter(
-    prefix="/subscriptions",
-    tags=["subscriptions"])
+stripe_subscription_router = APIRouter(
+    prefix="/subscriptions/stripe",
+    tags=["Stripe Subscriptions"])
 
 # Set your Stripe secret key (use env var in production)
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -30,7 +30,7 @@ def get_plan_response(price_obj):
         "features": product.metadata.get("features", "")
     }
 
-@stripe_router.get("/pricing/basic", summary="Get Basic Plan Pricing", tags=["subscriptions"])
+@stripe_subscription_router.get("/basic", summary="Get Basic Plan Pricing", tags=["subscriptions"])
 async def get_basic_plan():
     try:
         price = stripe.Price.retrieve(PLAN_IDS["basic"])
@@ -38,7 +38,7 @@ async def get_basic_plan():
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Stripe error: {str(e)}")
 
-@stripe_router.get("/pricing/pro", summary="Get Pro Plan Pricing", tags=["subscriptions"])
+@stripe_subscription_router.get("/pro", summary="Get Pro Plan Pricing", tags=["subscriptions"])
 async def get_pro_plan():
     try:
         price = stripe.Price.retrieve(PLAN_IDS["pro"])
@@ -46,7 +46,7 @@ async def get_pro_plan():
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Stripe error: {str(e)}")
 
-@stripe_router.get("/pricing/business", summary="Get Business Plan Pricing", tags=["subscriptions"])
+@stripe_subscription_router.get("/business", summary="Get Business Plan Pricing", tags=["subscriptions"])
 async def get_business_plan():
     try:
         price = stripe.Price.retrieve(PLAN_IDS["business"])
@@ -54,7 +54,7 @@ async def get_business_plan():
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Stripe error: {str(e)}")
 
-@stripe_router.get("/pricing/enterprise", summary="Get Enterprise Plan Pricing", tags=["subscriptions"])
+@stripe_subscription_router.get("/enterprise", summary="Get Enterprise Plan Pricing", tags=["subscriptions"])
 async def get_enterprise_plan():
     return RedirectResponse(
         url="http://localhost:8000/contact/lead")
