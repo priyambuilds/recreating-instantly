@@ -4,5 +4,12 @@
 # 2FA
 
 
+api refrence doc structure
 
-yesterday, today, weekly, bi-weekly, monthly, yearly analytics
+1. API Name
+2. Endpoint
+3. HTTP Method
+4. Short Description
+5. Any dependency or auth requirement
+6. Error Codes
+7. Notes / Additional Info

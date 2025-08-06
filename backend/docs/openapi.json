@@ -1,0 +1,2396 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Recreating Instantly",
+    "description": "A platform to send and share your favorite moments instantly with emails.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/user/signup": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Signup",
+        "operationId": "signup_user_signup_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserReadInDBSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/update": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update User",
+        "operationId": "update_user_user_update_put",
+        "parameters": [
+          {
+            "name": "email_confirmation",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Email Confirmation"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Access Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserReadInDBSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/update-password/{email}": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update Password",
+        "operationId": "update_password_user_update_password__email__put",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Email"
+            }
+          },
+          {
+            "name": "old_password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Old Password"
+            }
+          },
+          {
+            "name": "new_password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "New Password"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Access Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Read Current User",
+        "operationId": "read_current_user_user_me_get",
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Access Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserReadInDBSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/read/{username}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Read User",
+        "operationId": "read_user_user_read__username__get",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserReadInDBSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/delete/me": {
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete User",
+        "operationId": "delete_user_user_delete_me_delete",
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Access Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/app__userbase__users__endpoints__DeleteUserConfirmSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Login",
+        "operationId": "login_user_login_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_login_user_login_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Logout",
+        "operationId": "logout_user_logout_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/disable": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Disable User",
+        "operationId": "disable_user_user_disable_post",
+        "parameters": [
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Password"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Access Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/enable": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Enable User",
+        "operationId": "enable_user_user_enable_post",
+        "parameters": [
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Password"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Access Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/users/readall": {
+      "get": {
+        "tags": [
+          "Users Admin"
+        ],
+        "summary": "Read All Users",
+        "operationId": "read_all_users_admin_users_readall_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/UserPublicSchema"
+                  },
+                  "type": "array",
+                  "title": "Response Read All Users Admin Users Readall Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/users/delete/me": {
+      "delete": {
+        "tags": [
+          "Users Admin"
+        ],
+        "summary": "Delete User",
+        "operationId": "delete_user_admin_users_delete_me_delete",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Email"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/app__userbase__admin__endpoints__DeleteUserConfirmSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/sso/google/login": {
+      "get": {
+        "tags": [
+          "sso"
+        ],
+        "summary": "Google Login",
+        "operationId": "google_login_user_sso_google_login_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/sso/google/callback": {
+      "get": {
+        "tags": [
+          "sso"
+        ],
+        "summary": "Google Callback",
+        "operationId": "google_callback_user_sso_google_callback_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/sso/github/login": {
+      "get": {
+        "tags": [
+          "sso"
+        ],
+        "summary": "Github Login",
+        "operationId": "github_login_user_sso_github_login_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/sso/github/callback": {
+      "get": {
+        "tags": [
+          "sso"
+        ],
+        "summary": "Github Callback",
+        "operationId": "github_callback_user_sso_github_callback_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/sso/discord/login": {
+      "get": {
+        "tags": [
+          "sso"
+        ],
+        "summary": "Discord Login",
+        "operationId": "discord_login_user_sso_discord_login_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/sso/discord/callback": {
+      "get": {
+        "tags": [
+          "sso"
+        ],
+        "summary": "Discord Callback",
+        "operationId": "discord_callback_user_sso_discord_callback_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/sso/slack/login": {
+      "get": {
+        "tags": [
+          "sso"
+        ],
+        "summary": "Slack Login",
+        "operationId": "slack_login_user_sso_slack_login_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/sso/slack/callback": {
+      "get": {
+        "tags": [
+          "sso"
+        ],
+        "summary": "Slack Callback",
+        "operationId": "slack_callback_user_sso_slack_callback_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/sso/x/login": {
+      "get": {
+        "tags": [
+          "sso"
+        ],
+        "summary": "X Login",
+        "operationId": "x_login_user_sso_x_login_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/sso/x/callback": {
+      "get": {
+        "tags": [
+          "sso"
+        ],
+        "summary": "X Callback",
+        "operationId": "x_callback_user_sso_x_callback_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/otp/send": {
+      "post": {
+        "tags": [
+          "otp"
+        ],
+        "summary": "Send Otp",
+        "operationId": "send_otp_user_otp_send_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OTPBaseSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OTPBaseSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/otp/resend": {
+      "post": {
+        "tags": [
+          "otp"
+        ],
+        "summary": "Resend Otp",
+        "operationId": "resend_otp_user_otp_resend_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OTPBaseSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OTPBaseSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/otp/verify": {
+      "post": {
+        "tags": [
+          "otp"
+        ],
+        "summary": "Verify Otp",
+        "operationId": "verify_otp_user_otp_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OTPBaseSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contact/lead": {
+      "post": {
+        "tags": [
+          "contact"
+        ],
+        "summary": "Create Lead",
+        "operationId": "create_lead_contact_lead_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactUsPageSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactUsPageSchema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/stripe/basic": {
+      "get": {
+        "tags": [
+          "Stripe Subscriptions",
+          "subscriptions"
+        ],
+        "summary": "Get Basic Plan Pricing",
+        "operationId": "get_basic_plan_subscriptions_stripe_basic_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/stripe/pro": {
+      "get": {
+        "tags": [
+          "Stripe Subscriptions",
+          "subscriptions"
+        ],
+        "summary": "Get Pro Plan Pricing",
+        "operationId": "get_pro_plan_subscriptions_stripe_pro_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/stripe/business": {
+      "get": {
+        "tags": [
+          "Stripe Subscriptions",
+          "subscriptions"
+        ],
+        "summary": "Get Business Plan Pricing",
+        "operationId": "get_business_plan_subscriptions_stripe_business_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/stripe/enterprise": {
+      "get": {
+        "tags": [
+          "Stripe Subscriptions",
+          "subscriptions"
+        ],
+        "summary": "Get Enterprise Plan Pricing",
+        "operationId": "get_enterprise_plan_subscriptions_stripe_enterprise_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/email/draft": {
+      "get": {
+        "tags": [
+          "Mock Mail APIs"
+        ],
+        "summary": "Email Draft",
+        "operationId": "email_draft_mailserver_email_draft_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/email/sent": {
+      "get": {
+        "tags": [
+          "Mock Mail APIs"
+        ],
+        "summary": "Email Sent",
+        "operationId": "email_sent_mailserver_email_sent_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/email/soft-bounce": {
+      "get": {
+        "tags": [
+          "Mock Mail APIs"
+        ],
+        "summary": "Email Soft Bounce",
+        "operationId": "email_soft_bounce_mailserver_email_soft_bounce_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/email/hard-bounce": {
+      "get": {
+        "tags": [
+          "Mock Mail APIs"
+        ],
+        "summary": "Email Hard Bounce",
+        "operationId": "email_hard_bounce_mailserver_email_hard_bounce_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/email/received": {
+      "get": {
+        "tags": [
+          "Mock Mail APIs"
+        ],
+        "summary": "Email Received",
+        "operationId": "email_received_mailserver_email_received_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/email/success": {
+      "post": {
+        "tags": [
+          "Mock Mail APIs"
+        ],
+        "summary": "Email Success",
+        "operationId": "email_success_mailserver_email_success_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailSuccessInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/email/analytics": {
+      "get": {
+        "tags": [
+          "Mock Mail APIs"
+        ],
+        "summary": "Get Mail Analytics",
+        "operationId": "get_mail_analytics_mailserver_email_analytics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/contacts/total": {
+      "get": {
+        "tags": [
+          "Mock Contacts APIs"
+        ],
+        "summary": "Total Contacts",
+        "operationId": "total_contacts_mailserver_contacts_total_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/contacts/lists": {
+      "get": {
+        "tags": [
+          "Mock Contacts APIs"
+        ],
+        "summary": "Contact Lists",
+        "operationId": "contact_lists_mailserver_contacts_lists_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/contacts/emailed": {
+      "get": {
+        "tags": [
+          "Mock Contacts APIs"
+        ],
+        "summary": "Contacts Emailed",
+        "operationId": "contacts_emailed_mailserver_contacts_emailed_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/contacts/replied": {
+      "get": {
+        "tags": [
+          "Mock Contacts APIs"
+        ],
+        "summary": "Contacts Replied",
+        "operationId": "contacts_replied_mailserver_contacts_replied_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/contacts/blocked": {
+      "get": {
+        "tags": [
+          "Mock Contacts APIs"
+        ],
+        "summary": "Contacts Blocked",
+        "operationId": "contacts_blocked_mailserver_contacts_blocked_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/contacts/active": {
+      "get": {
+        "tags": [
+          "Mock Contacts APIs"
+        ],
+        "summary": "Contacts Active",
+        "operationId": "contacts_active_mailserver_contacts_active_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/contacts/inactive": {
+      "get": {
+        "tags": [
+          "Mock Contacts APIs"
+        ],
+        "summary": "Contacts Inactive",
+        "operationId": "contacts_inactive_mailserver_contacts_inactive_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/contacts/analytics": {
+      "get": {
+        "tags": [
+          "Mock Contacts APIs"
+        ],
+        "summary": "Get Contacts Analytics",
+        "operationId": "get_contacts_analytics_mailserver_contacts_analytics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/finance/spent": {
+      "get": {
+        "tags": [
+          "Mock Finance APIs"
+        ],
+        "summary": "Money Spent",
+        "operationId": "money_spent_mailserver_finance_spent_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/finance/received": {
+      "get": {
+        "tags": [
+          "Mock Finance APIs"
+        ],
+        "summary": "Money Received",
+        "operationId": "money_received_mailserver_finance_received_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/finance/roi": {
+      "get": {
+        "tags": [
+          "Mock Finance APIs"
+        ],
+        "summary": "Roi",
+        "operationId": "roi_mailserver_finance_roi_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/finance/mmr": {
+      "get": {
+        "tags": [
+          "Mock Finance APIs"
+        ],
+        "summary": "Mmr",
+        "operationId": "mmr_mailserver_finance_mmr_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mailserver/finance/analytics": {
+      "get": {
+        "tags": [
+          "Mock Finance APIs"
+        ],
+        "summary": "Get Finance Analytics",
+        "operationId": "get_finance_analytics_mailserver_finance_analytics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/email/event": {
+      "post": {
+        "tags": [
+          "Email Analytics"
+        ],
+        "summary": "Record Email Event",
+        "operationId": "record_email_event_analytics_email_event_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAnalyticsIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/email/summary": {
+      "get": {
+        "tags": [
+          "Email Analytics"
+        ],
+        "summary": "Email Analytics Summary",
+        "operationId": "email_analytics_summary_analytics_email_summary_get",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "today",
+                "yesterday",
+                "weekly",
+                "biweekly",
+                "monthly",
+                "6months",
+                "yearly"
+              ],
+              "default": "today",
+              "title": "Period"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/contacts/event": {
+      "post": {
+        "tags": [
+          "Contact Analytics"
+        ],
+        "summary": "Record Contact Event",
+        "operationId": "record_contact_event_analytics_contacts_event_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactAnalyticsIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/contacts/summary": {
+      "get": {
+        "tags": [
+          "Contact Analytics"
+        ],
+        "summary": "Contact Analytics Summary",
+        "operationId": "contact_analytics_summary_analytics_contacts_summary_get",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "today",
+                "yesterday",
+                "weekly",
+                "biweekly",
+                "monthly",
+                "6months",
+                "yearly"
+              ],
+              "default": "today",
+              "title": "Period"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/finance/event": {
+      "post": {
+        "tags": [
+          "Finance Analytics"
+        ],
+        "summary": "Record Finance Event",
+        "operationId": "record_finance_event_analytics_finance_event_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinanceAnalyticsIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/finance/summary": {
+      "get": {
+        "tags": [
+          "Finance Analytics"
+        ],
+        "summary": "Finance Analytics Summary",
+        "operationId": "finance_analytics_summary_analytics_finance_summary_get",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "today",
+                "yesterday",
+                "weekly",
+                "biweekly",
+                "monthly",
+                "6months",
+                "yearly"
+              ],
+              "default": "today",
+              "title": "Period"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_login_user_login_post": {
+        "properties": {
+          "grant_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^password$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grant Type"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "title": "Password"
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope",
+            "default": ""
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "client_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "format": "password",
+            "title": "Client Secret"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "Body_login_user_login_post"
+      },
+      "ContactAnalyticsIn": {
+        "properties": {
+          "event_type": {
+            "type": "string",
+            "title": "Event Type"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "event_type"
+        ],
+        "title": "ContactAnalyticsIn"
+      },
+      "ContactUsPageSchema": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "subject": {
+            "type": "string",
+            "maxLength": 255,
+            "title": "Subject"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "social_links": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Social Links"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "subject",
+          "message"
+        ],
+        "title": "ContactUsPageSchema"
+      },
+      "EmailAnalyticsIn": {
+        "properties": {
+          "event_type": {
+            "type": "string",
+            "title": "Event Type"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "event_type"
+        ],
+        "title": "EmailAnalyticsIn"
+      },
+      "EmailSuccessInput": {
+        "properties": {
+          "value": {
+            "type": "integer",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "EmailSuccessInput"
+      },
+      "FinanceAnalyticsIn": {
+        "properties": {
+          "event_type": {
+            "type": "string",
+            "title": "Event Type"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "event_type"
+        ],
+        "title": "FinanceAnalyticsIn"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "OTPBaseSchema": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email",
+            "examples": [
+              "user@gmail.com"
+            ]
+          },
+          "otp": {
+            "type": "integer",
+            "maximum": 9999,
+            "minimum": 1000,
+            "title": "Otp"
+          },
+          "otp_expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Otp Expires At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "otp",
+          "otp_expires_at"
+        ],
+        "title": "OTPBaseSchema"
+      },
+      "UserCreateSchema": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 6,
+            "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+            "title": "Email",
+            "examples": [
+              "heisenburg@gmail.com"
+            ]
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 3,
+            "pattern": "^[A-Za-z0-9_]+$",
+            "title": "Username",
+            "example": "Heisenburg_801"
+          },
+          "fullname": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Fullname",
+            "examples": [
+              "Walter Heartwell White"
+            ]
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 15,
+                "minLength": 10,
+                "pattern": "^\\+?\\d{10,15}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone",
+            "examples": [
+              "+919988776655"
+            ]
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 8,
+            "pattern": "^[^\\s]+$",
+            "title": "Password",
+            "examples": [
+              "VeryStrongPassword"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "username",
+          "password"
+        ],
+        "title": "UserCreateSchema"
+      },
+      "UserPublicSchema": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 6,
+            "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+            "title": "Email",
+            "examples": [
+              "user@gmail.com"
+            ]
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 3,
+            "pattern": "^[A-Za-z0-9_]+$",
+            "title": "Username",
+            "example": "Heisenburg_801"
+          },
+          "fullname": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Fullname",
+            "examples": [
+              "Walter Heartwell White"
+            ]
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 15,
+                "minLength": 10,
+                "pattern": "^\\+?\\d{10,15}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone",
+            "examples": [
+              "+1234567890"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "username",
+          "fullname"
+        ],
+        "title": "UserPublicSchema"
+      },
+      "UserReadInDBSchema": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 6,
+            "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+            "title": "Email"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 3,
+            "pattern": "^[A-Za-z0-9_]+$",
+            "title": "Username",
+            "example": "Heisenburg_801"
+          },
+          "fullname": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Fullname"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 15,
+                "minLength": 10,
+                "pattern": "^\\+?\\d{10,15}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "user_created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "User Created At"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "email_verified": {
+            "type": "boolean",
+            "title": "Email Verified"
+          },
+          "phone_verified": {
+            "type": "boolean",
+            "title": "Phone Verified"
+          },
+          "subscription": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 2,
+            "pattern": "^[A-Za-z]+$",
+            "title": "Subscription"
+          },
+          "sub_started_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Sub Started At"
+          },
+          "sub_ends_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Sub Ends At"
+          },
+          "last_login": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Login"
+          },
+          "os_info": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Os Info"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "username",
+          "fullname",
+          "phone",
+          "user_created_at",
+          "is_active",
+          "email_verified",
+          "phone_verified",
+          "subscription",
+          "sub_started_at",
+          "sub_ends_at",
+          "last_login",
+          "os_info",
+          "location"
+        ],
+        "title": "UserReadInDBSchema"
+      },
+      "UserUpdateSchema": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 3,
+            "pattern": "^[A-Za-z0-9_]+$",
+            "title": "Username",
+            "example": "Heisenburg_801"
+          },
+          "fullname": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fullname"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 15,
+                "minLength": 10,
+                "pattern": "^\\+?\\d{10,15}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "fullname",
+          "phone"
+        ],
+        "title": "UserUpdateSchema"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "app__userbase__admin__endpoints__DeleteUserConfirmSchema": {
+        "properties": {
+          "delete": {
+            "type": "boolean",
+            "title": "Delete"
+          }
+        },
+        "type": "object",
+        "required": [
+          "delete"
+        ],
+        "title": "DeleteUserConfirmSchema"
+      },
+      "app__userbase__users__endpoints__DeleteUserConfirmSchema": {
+        "properties": {
+          "password": {
+            "type": "string",
+            "title": "Password"
+          },
+          "comfirm_password": {
+            "type": "string",
+            "title": "Comfirm Password"
+          },
+          "delete_account": {
+            "type": "boolean",
+            "title": "Delete Account"
+          }
+        },
+        "type": "object",
+        "required": [
+          "password",
+          "comfirm_password",
+          "delete_account"
+        ],
+        "title": "DeleteUserConfirmSchema"
+      }
+    }
+  }
+}
