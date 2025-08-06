@@ -1,14 +1,17 @@
 // src/app/layout.tsx
 import type { Metadata } from 'next'
 import './globals.css'
-import Navbar from '@/components/sections/constants/navbar'
-import Footer from '@/components/sections/constants/footer'
+import Navbar from '@/components/sections/navigation/navbar & footer/navbar'
+import Footer from '@/components/sections/navigation/navbar & footer/footer'
 import ThemeProvider from '@/components/theme-provider'
 
 export const metadata: Metadata = {
   title: {
     default: 'Instantly Clone - Scale Your Cold Email Outreach',
     template: '%s | Instantly Clone'
+  },
+  icons: {
+    icon: "/logo.png",
   },
   description: 'Send thousands of emails without landing in spam folders. Automate your outreach with AI-powered personalization.',
   keywords: ['cold email', 'email automation', 'outreach', 'sales'],

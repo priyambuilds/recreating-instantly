@@ -1,18 +1,16 @@
-"use client"
-
 import { Button } from "@/ui/button"
 import Link from 'next/link'
 
 export default function Hero () {
     return (
-        <section className="flex items-center justify-center flex-1 px-4 py-20">
-            <div className="max-w-2xl mx-auto text-center">
+        <section className="flex flex-1 justify-center items-center px-4 py-20">
+            <div className="mx-auto max-w-2xl text-center">
                 {/* Main Title */}
-                <h1 className="text-4xl font-extrabold tracking-tight text-center scroll-m-20 text-balance">Find, Contact & Close Your Ideal Clients</h1>
+                <h1 className="font-extrabold text-4xl text-center text-balance tracking-tight scroll-m-20">Find, Contact & Close Your Ideal Clients</h1>
                 {/* Subtitle */}
-                <p className="mb-12 text-2xl font-semibold tracking-tight scroll-m-20 text-muted-foreground md:text-2xl">Instantly helps you find warm leads, scale email campaigns, reach primary inboxes, engage smarter and win more with AI.</p>
+                <p className="mb-12 font-semibold text-muted-foreground text-2xl md:text-2xl tracking-tight scroll-m-20">Instantly helps you find warm leads, scale email campaigns, reach primary inboxes, engage smarter and win more with AI.</p>
                 {/* Buttons */}
-                <div className="flex flex-col justify-center gap-4 sm:flex-row">
+                <div className="flex sm:flex-row flex-col justify-center gap-4">
                     <Button
                         asChild
                         variant="outline"
