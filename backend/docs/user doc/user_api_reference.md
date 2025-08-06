@@ -1,4 +1,5 @@
 ## 1. Signup
+
 - **Endpoint:** `/user/signup`
 - **HTTP Method:** POST
 - **Short Description:** Register a new user (email, username, fullname, phone, password).
@@ -11,6 +12,7 @@
 ---
 
 ## 2. Login
+
 - **Endpoint:** `/user/login`
 - **HTTP Method:** POST
 - **Short Description:** Authenticate user and return JWT access token.
@@ -23,6 +25,7 @@
 ---
 
 ## 3. Get Current User
+
 - **Endpoint:** `/user/me`
 - **HTTP Method:** GET
 - **Short Description:** Get details of the currently authenticated user.
@@ -36,6 +39,7 @@
 ---
 
 ## 4. Update User
+
 - **Endpoint:** `/user/update`
 - **HTTP Method:** PUT
 - **Short Description:** Update current user's details (username, fullname, phone).
@@ -50,6 +54,7 @@
 ---
 
 ## 5. Update Password
+
 - **Endpoint:** `/user/update-password/{email}`
 - **HTTP Method:** PUT
 - **Short Description:** Update password for the user with the given email.
@@ -64,6 +69,7 @@
 ---
 
 ## 6. Read User by Username
+
 - **Endpoint:** `/user/read/{username}`
 - **HTTP Method:** GET
 - **Short Description:** Get user details by username.
@@ -77,6 +83,7 @@
 ---
 
 ## 7. Delete User
+
 - **Endpoint:** `/user/delete/me`
 - **HTTP Method:** DELETE
 - **Short Description:** Delete the currently authenticated user after confirmation.
@@ -90,6 +97,7 @@
 ---
 
 ## 8. Logout
+
 - **Endpoint:** `/user/logout`
 - **HTTP Method:** POST
 - **Short Description:** Logout user (stateless JWT, client-side token removal).
@@ -102,6 +110,7 @@
 ---
 
 ## 9. Disable User
+
 - **Endpoint:** `/user/disable`
 - **HTTP Method:** POST
 - **Short Description:** Disable the current user's account.
@@ -115,6 +124,7 @@
 ---
 
 ## 10. Enable User
+
 - **Endpoint:** `/user/enable`
 - **HTTP Method:** POST
 - **Short Description:** Enable the current user's account.

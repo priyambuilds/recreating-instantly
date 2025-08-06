@@ -51,15 +51,13 @@ export default function RootLayout({children}: {children: React.ReactNode})
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider
+          <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-            <main>{children}</main>
-          <Footer />
+          {children}
         </ThemeProvider>
       </body>
     </html>

@@ -1,4 +1,5 @@
 ## 1. X SSO Login
+
 - **Endpoint:** `/user/sso/x/login`
 - **HTTP Method:** GET
 - **Short Description:** Redirects user to X (Twitter) OAuth login page for authentication.
@@ -10,6 +11,7 @@
 ---
 
 ## 2. X SSO Callback
+
 - **Endpoint:** `/user/sso/x/callback`
 - **HTTP Method:** GET
 - **Short Description:** Handles X OAuth callback, exchanges code for access token, fetches user info, and logs in or creates user.
@@ -22,6 +24,7 @@
 ---
 
 ## 3. Google SSO Login
+
 - **Endpoint:** `/user/sso/google/login`
 - **HTTP Method:** GET
 - **Short Description:** Redirects user to Google OAuth login page for authentication.
@@ -33,6 +36,7 @@
 ---
 
 ## 4. Google SSO Callback
+
 - **Endpoint:** `/user/sso/google/callback`
 - **HTTP Method:** GET
 - **Short Description:** Handles Google OAuth callback, exchanges code for access token, fetches user info, and logs in or creates user.
@@ -45,6 +49,7 @@
 ---
 
 ## 5. GitHub SSO Login
+
 - **Endpoint:** `/user/sso/github/login`
 - **HTTP Method:** GET
 - **Short Description:** Redirects user to GitHub OAuth login page for authentication.
@@ -56,6 +61,7 @@
 ---
 
 ## 6. GitHub SSO Callback
+
 - **Endpoint:** `/user/sso/github/callback`
 - **HTTP Method:** GET
 - **Short Description:** Handles GitHub OAuth callback, exchanges code for access token, fetches user info, and logs in or creates user.
@@ -68,6 +74,7 @@
 ---
 
 ## 7. Discord SSO Login
+
 - **Endpoint:** `/user/sso/discord/login`
 - **HTTP Method:** GET
 - **Short Description:** Redirects user to Discord OAuth login page for authentication.
@@ -79,6 +86,7 @@
 ---
 
 ## 8. Discord SSO Callback
+
 - **Endpoint:** `/user/sso/discord/callback`
 - **HTTP Method:** GET
 - **Short Description:** Handles Discord OAuth callback, exchanges code for access token, fetches user info, and logs in or creates user.
@@ -91,6 +99,7 @@
 ---
 
 ## 9. Slack SSO Login
+
 - **Endpoint:** `/user/sso/slack/login`
 - **HTTP Method:** GET
 - **Short Description:** Redirects user to Slack OAuth login page for authentication.
@@ -102,6 +111,7 @@
 ---
 
 ## 10. Slack SSO Callback
+
 - **Endpoint:** `/user/sso/slack/callback`
 - **HTTP Method:** GET
 - **Short Description:** Handles Slack OAuth callback, exchanges code for access token, fetches user info, and logs in or creates user.

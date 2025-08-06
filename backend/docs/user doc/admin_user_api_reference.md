@@ -1,4 +1,5 @@
 ## 1. Read All Users
+
 - **Endpoint:** `/admin/users/readall`
 - **HTTP Method:** GET
 - **Short Description:** Retrieve a list of all users in the system.
@@ -11,6 +12,7 @@
 ---
 
 ## 2. Delete User
+
 - **Endpoint:** `/admin/users/delete/me`
 - **HTTP Method:** DELETE
 - **Short Description:** Delete a user by email after confirmation.

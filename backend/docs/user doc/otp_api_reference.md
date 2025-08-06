@@ -1,4 +1,5 @@
 ## 1. Send OTP
+
 - **Endpoint:** `/user/otp/send`
 - **HTTP Method:** POST
 - **Short Description:** Generate and send a new OTP to the specified email address.
@@ -10,6 +11,7 @@
 ---
 
 ## 2. Resend OTP
+
 - **Endpoint:** `/user/otp/resend`
 - **HTTP Method:** POST
 - **Short Description:** Remove any existing OTPs for the email and send a new OTP.
@@ -21,6 +23,7 @@
 ---
 
 ## 3. Verify OTP
+
 - **Endpoint:** `/user/otp/verify`
 - **HTTP Method:** POST
 - **Short Description:** Verify the OTP for the given email. Marks user as email_verified if successful.

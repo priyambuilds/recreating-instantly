@@ -1,4 +1,5 @@
 ## 1. List Subscriptions
+
 - **Endpoint:** `/subscriptions/pricing`
 - **HTTP Method:** GET
 - **Short Description:** Retrieve a list of all available subscription plans.
@@ -10,6 +11,7 @@
 ---
 
 ## 2. Get Subscription by ID
+
 - **Endpoint:** `/subscriptions/{sub_id}`
 - **HTTP Method:** GET
 - **Short Description:** Retrieve details for a specific subscription plan by its ID.
@@ -22,6 +24,7 @@
 ---
 
 ## 3. Get Basic Plan Pricing (Stripe)
+
 - **Endpoint:** `/subscriptions/stripe/basic`
 - **HTTP Method:** GET
 - **Short Description:** Retrieve pricing and details for the Basic Stripe subscription plan.
@@ -33,6 +36,7 @@
 ---
 
 ## 4. Get Pro Plan Pricing (Stripe)
+
 - **Endpoint:** `/subscriptions/stripe/pro`
 - **HTTP Method:** GET
 - **Short Description:** Retrieve pricing and details for the Pro Stripe subscription plan.
@@ -44,6 +48,7 @@
 ---
 
 ## 5. Get Business Plan Pricing (Stripe)
+
 - **Endpoint:** `/subscriptions/stripe/business`
 - **HTTP Method:** GET
 - **Short Description:** Retrieve pricing and details for the Business Stripe subscription plan.
@@ -55,6 +60,7 @@
 ---
 
 ## 6. Get Enterprise Plan Pricing (Stripe)
+
 - **Endpoint:** `/subscriptions/stripe/enterprise`
 - **HTTP Method:** GET
 - **Short Description:** Redirects to contact/lead page for Enterprise plan inquiries.
