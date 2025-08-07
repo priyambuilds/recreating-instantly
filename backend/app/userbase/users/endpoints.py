@@ -230,7 +230,7 @@ async def delete_user(
     db: AsyncSession = Depends(db),
     current_user: UserBase = Depends(get_current_user)
 ):
-    # Verify password
+    # Verify password 
     if confirm.delete_account is not True:
         raise HTTPException(status_code=400, detail="Account deletion not confirmed")
     if confirm.password != confirm.comfirm_password:

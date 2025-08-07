@@ -54,6 +54,15 @@ class Settings(BaseSettings):
     X_TOKEN_URL: str = "https://api.twitter.com/2/oauth2/token"
     X_USERINFO_URL: str = "https://api.twitter.com/2/users/me"
 
+    LINKEDIN_CLIENT_ID: str
+    LINKEDIN_CLIENT_SECRET: str
+    LINKEDIN_REDIRECT_URI: str = "http://127.0.0.1:8000/user/sso/linkedin/callback"
+    LINKEDIN_AUTH_URL: str = "https://www.linkedin.com/oauth/v2/authorization"
+    LINKEDIN_TOKEN_URL: str = "https://www.linkedin.com/oauth/v2/accessToken"
+    LINKEDIN_USERINFO_URL: str = "https://api.linkedin.com/v2/me"
+    LINKEDIN_EMAIL_URL: str = "https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))"
+
+
     BREVO_API_KEY: str
     SENDER_EMAIL: str
 
