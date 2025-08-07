@@ -1,0 +1,11 @@
+aichive.space {
+  reverse_proxy localhost:3000
+  encode gzip
+  tls cattox7383@gmail.com
+}
+
+api.aichive.space {
+  reverse_proxy localhost:8000
+  encode gzip
+  tls cattox7383@gmail.com
+}
