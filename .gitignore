@@ -58,3 +58,7 @@ notes/
 .vscode/
 /settings.json
 .vscode/settings.json
+__pycache__/
+*.pyc
+*.pyo
+*.pyd

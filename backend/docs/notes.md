@@ -15,3 +15,5 @@ api refrence doc structure
 5. Any dependency or auth requirement
 6. Error Codes
 7. Notes / Additional Info
+
+http://localhost:8000/user/soo/
