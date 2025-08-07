@@ -15,7 +15,7 @@ pip install -r requirements.txt
 
 # Run the FastAPI server (adjust main.py path/module if needed)
 
-uvicorn app.main:app --reload --host 0.0.0.0 --port
+uvicorn app.main:app --reload
 
 - visit <http://localhost:8000/docs> to open OPENAPI documentation
 -

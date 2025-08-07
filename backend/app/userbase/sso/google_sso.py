@@ -13,6 +13,7 @@ from app.userbase.sso.models import SSOUserBase
 from app.userbase.users.models import UserBase
 
 
+
 sso_router = APIRouter(
     prefix="/user/sso",
     tags=["sso"],
