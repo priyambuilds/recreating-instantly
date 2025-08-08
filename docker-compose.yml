@@ -5,9 +5,9 @@ services:
     image: postgres:16-alpine
     restart: always
     environment:
-      POSTGRES_DB: appdb
-      POSTGRES_USER: appuser
-      POSTGRES_PASSWORD: strongpassword
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: rex000777
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
