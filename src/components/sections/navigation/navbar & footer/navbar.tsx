@@ -1,30 +1,31 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useTheme } from "next-themes"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Moon, Sun, Menu } from "lucide-react"
-import Image from "next/image"
+import * as React from "react";
+import { useTheme } from "next-themes";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Moon, Sun, Menu } from "lucide-react";
+import Image from "next/image";
+import ROUTES from "@/lib/constants/routes";
 
 const navigationItems = [
   { name: "Home", href: "/" },
   { name: "Pricing", href: "/pricing" },
-  { name: "Contact", href: "/contact" }
-]
+  { name: "Contact", href: "/contact" },
+];
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
-  
+  const [isOpen, setIsOpen] = React.useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
   React.useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   if (!mounted) {
-    return null
+    return null;
   }
 
   return (
@@ -41,25 +42,25 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden lg:block">
             <div className="flex items-baseline ml-10 space-x-6 xl:space-x-8">
-              {navigationItems.map((item) => (
-                item.href.startsWith('/') ? (
-                  <Link 
+              {navigationItems.map((item) =>
+                item.href.startsWith("/") ? (
+                  <Link
                     key={item.name}
-                    href={item.href} 
+                    href={item.href}
                     className="text-sm font-medium transition-colors text-muted-foreground hover:text-foreground"
                   >
                     {item.name}
                   </Link>
                 ) : (
-                  <a 
+                  <a
                     key={item.name}
-                    href={item.href} 
+                    href={item.href}
                     className="text-sm font-medium transition-colors text-muted-foreground hover:text-foreground"
                   >
                     {item.name}
                   </a>
                 )
-              ))}
+              )}
             </div>
           </div>
 
@@ -81,12 +82,14 @@ export default function Navbar() {
 
             {/* Desktop Auth Buttons */}
             <div className="items-center hidden space-x-2 md:flex">
-              <Link href="auth/login"><Button variant="ghost" size="sm">
-                Sign In
-              </Button></Link>
-              <Link href="auth/register"><Button size="sm">
-                Register
-              </Button></Link>
+              <Link href={ROUTES.SIGN_IN}>
+                <Button variant="ghost" size="sm">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href={ROUTES.SIGN_UP}>
+                <Button size="sm">Sign Up</Button>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
@@ -105,9 +108,15 @@ export default function Navbar() {
               <SheetContent side="right" className="w-[320px] p-0">
                 {/* Mobile Menu Header */}
                 <div className="flex items-center justify-between p-6 border-b border-border">
-                  <Link href="/" className="flex items-center" onClick={() => setIsOpen(false)}>
+                  <Link
+                    href="/"
+                    className="flex items-center"
+                    onClick={() => setIsOpen(false)}
+                  >
                     <div className="flex items-center justify-center w-8 h-8 rounded bg-primary">
-                      <div className="text-sm font-bold text-primary-foreground">L</div>
+                      <div className="text-sm font-bold text-primary-foreground">
+                        L
+                      </div>
                     </div>
                   </Link>
                 </div>
@@ -115,8 +124,8 @@ export default function Navbar() {
                 {/* Navigation Links */}
                 <div className="px-6 py-6">
                   <div className="space-y-1">
-                    {navigationItems.map((item) => (
-                      item.href.startsWith('/') ? (
+                    {navigationItems.map((item) =>
+                      item.href.startsWith("/") ? (
                         <Link
                           key={item.name}
                           href={item.href}
@@ -135,25 +144,22 @@ export default function Navbar() {
                           {item.name}
                         </a>
                       )
-                    ))}
+                    )}
                   </div>
-                  
+
                   {/* Mobile Auth Buttons */}
                   <div className="pt-6 mt-6 border-t border-border">
                     <div className="space-y-3">
-                      <Button 
-                        variant="outline" 
-                        className="justify-center w-full" 
+                      <Button
+                        variant="outline"
+                        className="justify-center w-full"
                         asChild
                       >
                         <Link href="/login" onClick={() => setIsOpen(false)}>
                           Sign in
                         </Link>
                       </Button>
-                      <Button 
-                        className="justify-center w-full" 
-                        asChild
-                      >
+                      <Button className="justify-center w-full" asChild>
                         <Link href="/register" onClick={() => setIsOpen(false)}>
                           Register
                         </Link>
@@ -167,5 +173,5 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
-  )
+  );
 }

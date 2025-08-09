@@ -22,7 +22,7 @@ const signupSchema = z
     phone: z
       .string()
       .regex(/^\+\d{10,15}$/, "Use international format (e.g., +919988776655)"),
-    email: z.string().email("Enter a valid email address"),
+    email: z.email("Enter a valid email address"),
     password: z
       .string()
       .min(8, "Password must be at least 8 characters")
@@ -124,7 +124,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
         throw new Error("API URL not configured");
       }
 
-      const response = await fetch(`${API_URL}/user/signup`, {
+      const response = await fetch("http://localhost:8000/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,10 +156,10 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
 
   return (
     <div className={className} {...props}>
-      <Card className="mx-auto max-w-md">
+      <Card className="max-w-md mx-auto">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="font-bold text-2xl">Create Account</CardTitle>
-          <p className="text-muted-foreground text-sm">
+          <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
+          <p className="text-sm text-muted-foreground">
             Enter your details to create your account
           </p>
         </CardHeader>
@@ -167,7 +167,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
         <CardContent className="space-y-6">
           {/* Social Login Buttons */}
           <div className="space-y-4">
-            <div className="gap-3 grid grid-cols-3">
+            <div className="grid grid-cols-3 gap-3">
               <Button
                 variant="outline"
                 type="button"
@@ -229,10 +229,10 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
             {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <span className="border-t w-full" />
+                <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
+                <span className="px-2 bg-background text-muted-foreground">
                   Or continue with email
                 </span>
               </div>
@@ -252,7 +252,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
                 className={errors.username ? "border-red-500" : ""}
               />
               {errors.username && (
-                <p className="text-red-600 text-sm">
+                <p className="text-sm text-red-600">
                   {errors.username.message}
                 </p>
               )}
@@ -269,7 +269,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
                 className={errors.fullname ? "border-red-500" : ""}
               />
               {errors.fullname && (
-                <p className="text-red-600 text-sm">
+                <p className="text-sm text-red-600">
                   {errors.fullname.message}
                 </p>
               )}
@@ -286,7 +286,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
                 className={errors.phone ? "border-red-500" : ""}
               />
               {errors.phone && (
-                <p className="text-red-600 text-sm">{errors.phone.message}</p>
+                <p className="text-sm text-red-600">{errors.phone.message}</p>
               )}
             </div>
 
@@ -301,7 +301,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
                 className={errors.email ? "border-red-500" : ""}
               />
               {errors.email && (
-                <p className="text-red-600 text-sm">{errors.email.message}</p>
+                <p className="text-sm text-red-600">{errors.email.message}</p>
               )}
             </div>
 
@@ -317,7 +317,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
                 className={errors.password ? "border-red-500" : ""}
               />
               {errors.password && (
-                <p className="text-red-600 text-sm">
+                <p className="text-sm text-red-600">
                   {errors.password.message}
                 </p>
               )}
@@ -335,7 +335,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
                 className={errors.confirmPassword ? "border-red-500" : ""}
               />
               {errors.confirmPassword && (
-                <p className="text-red-600 text-sm">
+                <p className="text-sm text-red-600">
                   {errors.confirmPassword.message}
                 </p>
               )}
@@ -343,8 +343,8 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
 
             {/* Backend Error */}
             {backendError && (
-              <div className="bg-red-50 p-3 border border-red-200 rounded-md">
-                <p className="text-red-800 text-sm">{backendError}</p>
+              <div className="p-3 border border-red-200 rounded-md bg-red-50">
+                <p className="text-sm text-red-800">{backendError}</p>
               </div>
             )}
 
@@ -361,7 +361,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
             </span>
             <a
               href="/login"
-              className="font-medium text-primary hover:text-primary/80 underline underline-offset-4"
+              className="font-medium underline text-primary hover:text-primary/80 underline-offset-4"
             >
               Sign in
             </a>
@@ -370,18 +370,18 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
       </Card>
 
       {/* Terms and Privacy */}
-      <p className="mt-4 text-muted-foreground text-xs text-center">
+      <p className="mt-4 text-xs text-center text-muted-foreground">
         By creating an account, you agree to our{" "}
         <a
           href="/terms"
-          className="hover:text-primary underline underline-offset-4"
+          className="underline hover:text-primary underline-offset-4"
         >
           Terms of Service
         </a>{" "}
         and{" "}
         <a
           href="/privacy"
-          className="hover:text-primary underline underline-offset-4"
+          className="underline hover:text-primary underline-offset-4"
         >
           Privacy Policy
         </a>

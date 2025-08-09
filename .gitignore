@@ -62,3 +62,6 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.obsidian/
+/notes/.obsidian
+/notes/.obsidian/plugins/image-converter
