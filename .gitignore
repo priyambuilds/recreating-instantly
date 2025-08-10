@@ -65,3 +65,6 @@ __pycache__/
 .obsidian/
 /notes/.obsidian
 /notes/.obsidian/plugins/image-converter
+/backend/app/core/__pycache__
+/backend/app/core/__pycache__/configs.cpython-313.pyc
+/backend/app/__pycache__/main.cpython-313.pyc

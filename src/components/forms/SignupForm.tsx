@@ -21,15 +21,10 @@ const signupSchema = z
       .max(50, "Full name must be less than 50 characters"),
     phone: z
       .string()
-      .regex(/^\+\d{10,15}$/, "Use international format (e.g., +919988776655)"),
+      .min(10, "Phone number required")
+      .max(15, "Invalid phone number"),
     email: z.email("Enter a valid email address"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        "Password must contain at least one lowercase letter, one uppercase letter, and one number"
-      ),
+    password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -124,7 +119,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
         throw new Error("API URL not configured");
       }
 
-      const response = await fetch("http://localhost:8000/user/signup", {
+      const response = await fetch(`${API_URL}/user/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
