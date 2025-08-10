@@ -67,3 +67,15 @@ def root():
     return {"Hello World"}
 
 
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+
+# Add this CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Your Next.js URL
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
