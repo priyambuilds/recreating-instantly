@@ -2,40 +2,17 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { signupSchema, SignupFormData } from "@/lib/types/validation/auth";
+import { useSignup } from "@/hooks/use-signup";
+import { cn } from "@/lib/utils";
+import { Input } from "../ui/input";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const signupSchema = z
-  .object({
-    username: z
-      .string()
-      .min(3, "Username must be at least 3 characters")
-      .max(20, "Username must be less than 20 characters"),
-    fullname: z
-      .string()
-      .min(2, "Full name is required")
-      .max(50, "Full name must be less than 50 characters"),
-    phone: z
-      .string()
-      .min(10, "Phone number required")
-      .max(15, "Invalid phone number"),
-    email: z.email("Enter a valid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-type SignupFormData = z.infer<typeof signupSchema>;
-
-interface SignupFormProps extends React.ComponentProps<"div"> {}
-
+// Social icon components inline for completeness
 const SocialIcon = {
   Google: () => (
     <svg className="w-4 h-4" viewBox="0 0 25 25" aria-hidden="true">
@@ -55,15 +32,13 @@ const SocialIcon = {
   ),
   Linkedin: () => (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="25"
-      height="25"
+      className="w-4 h-4"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
       <rect width="4" height="12" x="2" y="9" />
@@ -96,9 +71,14 @@ const SocialIcon = {
   ),
 };
 
-export function SignupForm({ className, ...props }: SignupFormProps) {
-  const [backendError, setBackendError] = useState<string>("");
+interface SignupFormProps extends React.ComponentProps<"div"> {}
 
+export function SignupForm({ className, ...props }: SignupFormProps) {
+  // Use custom signup hook for API, loading, backend error handling
+  const { signup, isLoading, error: backendError, clearError } = useSignup();
+  const router = useRouter();
+
+  // Form state
   const {
     register,
     handleSubmit,
@@ -106,52 +86,43 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
     reset,
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
+    defaultValues: {
+      username: "",
+      fullname: "",
+      phone: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    mode: "onBlur",
   });
 
-  const onSubmit = async (data: SignupFormData) => {
-    setBackendError("");
-
-    try {
-      const { confirmPassword, ...payload } = data;
-      const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-      if (!API_URL) {
-        throw new Error("API URL not configured");
-      }
-
-      const response = await fetch(`${API_URL}/user/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Signup failed. Please try again.");
-      }
-
-      // Success - handle redirect or show success message
-      reset();
-      // toast.success("Account created successfully! Please check your email.");
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again.";
-      setBackendError(errorMessage);
-    }
-  };
-
+  // Social Login Handler (OAuth flow starts here)
   const handleSocialLogin = (provider: string) => {
-    // Implement social login logic here
-    console.log(`Login with ${provider}`);
+    // In production, use: router.push or window.location to your actual OAuth endpoint
+    window.location.href = `http://localhost:8000/user/sso/${provider}/login`;
   };
+
+  // Main form submission
+  const onSubmit = async (data: SignupFormData) => {
+    clearError();
+    await signup(data); // handles all API, toasts, and router push
+    reset();
+  };
+
+  // Social providers defined here for fast editing
+  const socialProviders = [
+    { key: "google", label: "google", icon: SocialIcon.Google },
+    { key: "github", label: "github", icon: SocialIcon.Github },
+    { key: "linkedin", label: "linkedIn", icon: SocialIcon.Linkedin },
+    { key: "x", label: "x", icon: SocialIcon.Twitter },
+    { key: "slack", label: "slack", icon: SocialIcon.Slack },
+    { key: "discord", label: "discord", icon: SocialIcon.Discord },
+  ];
 
   return (
     <div className={className} {...props}>
-      <Card className="max-w-md mx-auto">
+      <Card className="w-full max-w-md mx-auto">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
           <p className="text-sm text-muted-foreground">
@@ -160,68 +131,24 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
         </CardHeader>
 
         <CardContent className="space-y-6">
-          {/* Social Login Buttons */}
+          {/* Social Login */}
           <div className="space-y-4">
             <div className="grid grid-cols-3 gap-3">
-              <Button
-                variant="outline"
-                type="button"
-                className="w-full"
-                onClick={() => handleSocialLogin("google")}
-              >
-                <SocialIcon.Google />
-                <span className="sr-only">Sign up with Google</span>
-              </Button>
-
-              <Button
-                variant="outline"
-                type="button"
-                className="w-full"
-                onClick={() => handleSocialLogin("github")}
-              >
-                <SocialIcon.Github />
-                <span className="sr-only">Sign up with Github</span>
-              </Button>
-
-              <Button
-                variant="outline"
-                type="button"
-                className="w-full"
-                onClick={() => handleSocialLogin("linkedin")}
-              >
-                <SocialIcon.Linkedin />
-                <span className="sr-only">Sign up with linkedin</span>
-              </Button>
-              <Button
-                variant="outline"
-                type="button"
-                className="w-full"
-                onClick={() => handleSocialLogin("x")}
-              >
-                <SocialIcon.Twitter />
-                <span className="sr-only">Sign up with X</span>
-              </Button>
-              <Button
-                variant="outline"
-                type="button"
-                className="w-full"
-                onClick={() => handleSocialLogin("x")}
-              >
-                <SocialIcon.Discord />
-                <span className="sr-only">Sign up with Discord</span>
-              </Button>
-              <Button
-                variant="outline"
-                type="button"
-                className="w-full"
-                onClick={() => handleSocialLogin("slack")}
-              >
-                <SocialIcon.Slack />
-                <span className="sr-only">Sign up with Slack</span>
-              </Button>
+              {socialProviders.map(({ key, label, icon: Icon }) => (
+                <Button
+                  key={key}
+                  variant="outline"
+                  type="button"
+                  className="w-full"
+                  disabled={isSubmitting || isLoading}
+                  onClick={() => handleSocialLogin(key)}
+                  aria-label={`Sign up with ${label}`}
+                >
+                  <Icon />
+                  <span className="sr-only">Sign up with {label}</span>
+                </Button>
+              ))}
             </div>
-
-            {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
@@ -234,103 +161,175 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
             </div>
           </div>
 
-          {/* Email Signup Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Username Field */}
+          {/* Signup Form (inlined fields, not abstracted) */}
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4"
+            noValidate
+          >
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <label htmlFor="username" className="text-sm font-medium">
+                Username <span className="text-red-500">*</span>
+              </label>
               <Input
                 id="username"
                 type="text"
                 placeholder="Enter your username"
                 {...register("username")}
-                className={errors.username ? "border-red-500" : ""}
+                className={cn(
+                  errors.username && "border-red-500 focus-visible:ring-red-500"
+                )}
+                aria-invalid={!!errors.username}
+                aria-describedby={
+                  errors.username ? "username-error" : undefined
+                }
               />
               {errors.username && (
-                <p className="text-sm text-red-600">
+                <p
+                  id="username-error"
+                  className="text-sm text-red-500"
+                  role="alert"
+                >
                   {errors.username.message}
                 </p>
               )}
             </div>
 
-            {/* Full Name Field */}
             <div className="space-y-2">
-              <Label htmlFor="fullname">Full Name</Label>
+              <label htmlFor="fullname" className="text-sm font-medium">
+                Full Name <span className="text-red-500">*</span>
+              </label>
               <Input
                 id="fullname"
                 type="text"
                 placeholder="Enter your full name"
                 {...register("fullname")}
-                className={errors.fullname ? "border-red-500" : ""}
+                className={cn(
+                  errors.fullname && "border-red-500 focus-visible:ring-red-500"
+                )}
+                aria-invalid={!!errors.fullname}
+                aria-describedby={
+                  errors.fullname ? "fullname-error" : undefined
+                }
               />
               {errors.fullname && (
-                <p className="text-sm text-red-600">
+                <p
+                  id="fullname-error"
+                  className="text-sm text-red-500"
+                  role="alert"
+                >
                   {errors.fullname.message}
                 </p>
               )}
             </div>
 
-            {/* Phone Field */}
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
+              <label htmlFor="phone" className="text-sm font-medium">
+                Phone Number (Optional)
+              </label>
               <Input
                 id="phone"
                 type="tel"
                 placeholder="+919988776655"
                 {...register("phone")}
-                className={errors.phone ? "border-red-500" : ""}
+                className={cn(
+                  errors.phone && "border-red-500 focus-visible:ring-red-500"
+                )}
+                aria-invalid={!!errors.phone}
+                aria-describedby={errors.phone ? "phone-error" : undefined}
               />
               {errors.phone && (
-                <p className="text-sm text-red-600">{errors.phone.message}</p>
+                <p
+                  id="phone-error"
+                  className="text-sm text-red-500"
+                  role="alert"
+                >
+                  {errors.phone.message}
+                </p>
               )}
             </div>
 
-            {/* Email Field */}
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
+              <label htmlFor="email" className="text-sm font-medium">
+                Email Address <span className="text-red-500">*</span>
+              </label>
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 {...register("email")}
-                className={errors.email ? "border-red-500" : ""}
+                className={cn(
+                  errors.email && "border-red-500 focus-visible:ring-red-500"
+                )}
+                autoComplete="email"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
               />
               {errors.email && (
-                <p className="text-sm text-red-600">{errors.email.message}</p>
+                <p
+                  id="email-error"
+                  className="text-sm text-red-500"
+                  role="alert"
+                >
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
-            {/* Password Field */}
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <label htmlFor="password" className="text-sm font-medium">
+                Password <span className="text-red-500">*</span>
+              </label>
               <Input
                 id="password"
                 type="password"
                 placeholder="Create a strong password"
-                autoComplete="new-password"
                 {...register("password")}
-                className={errors.password ? "border-red-500" : ""}
+                className={cn(
+                  errors.password && "border-red-500 focus-visible:ring-red-500"
+                )}
+                autoComplete="new-password"
+                aria-invalid={!!errors.password}
+                aria-describedby={
+                  errors.password ? "password-error" : undefined
+                }
               />
               {errors.password && (
-                <p className="text-sm text-red-600">
+                <p
+                  id="password-error"
+                  className="text-sm text-red-500"
+                  role="alert"
+                >
                   {errors.password.message}
                 </p>
               )}
             </div>
 
-            {/* Confirm Password Field */}
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <label htmlFor="confirmPassword" className="text-sm font-medium">
+                Confirm Password <span className="text-red-500">*</span>
+              </label>
               <Input
                 id="confirmPassword"
                 type="password"
                 placeholder="Confirm your password"
-                autoComplete="new-password"
                 {...register("confirmPassword")}
-                className={errors.confirmPassword ? "border-red-500" : ""}
+                className={cn(
+                  errors.confirmPassword &&
+                    "border-red-500 focus-visible:ring-red-500"
+                )}
+                autoComplete="new-password"
+                aria-invalid={!!errors.confirmPassword}
+                aria-describedby={
+                  errors.confirmPassword ? "confirmPassword-error" : undefined
+                }
               />
               {errors.confirmPassword && (
-                <p className="text-sm text-red-600">
+                <p
+                  id="confirmPassword-error"
+                  className="text-sm text-red-500"
+                  role="alert"
+                >
                   {errors.confirmPassword.message}
                 </p>
               )}
@@ -338,24 +337,30 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
 
             {/* Backend Error */}
             {backendError && (
-              <div className="p-3 border border-red-200 rounded-md bg-red-50">
+              <div
+                className="p-3 border border-red-200 rounded-md bg-red-50"
+                role="alert"
+              >
                 <p className="text-sm text-red-800">{backendError}</p>
               </div>
             )}
-
-            {/* Submit Button */}
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Creating Account..." : "Create Account"}
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isSubmitting || isLoading}
+            >
+              {isSubmitting || isLoading
+                ? "Creating Account..."
+                : "Create Account"}
             </Button>
           </form>
-
           {/* Login Link */}
           <div className="text-sm text-center">
             <span className="text-muted-foreground">
               Already have an account?{" "}
             </span>
             <a
-              href="/login"
+              href="/sign-in"
               className="font-medium underline text-primary hover:text-primary/80 underline-offset-4"
             >
               Sign in
@@ -363,8 +368,6 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
           </div>
         </CardContent>
       </Card>
-
-      {/* Terms and Privacy */}
       <p className="mt-4 text-xs text-center text-muted-foreground">
         By creating an account, you agree to our{" "}
         <a
@@ -385,3 +388,5 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
     </div>
   );
 }
+
+export default SignupForm;
